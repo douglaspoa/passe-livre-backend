@@ -6,6 +6,12 @@ const app = express();
 
 app.use(bodyParser.json());
 
+// Adicionando arquivo de rota no endpoint /user
+const user = require('./routes/user');
+
+app.use('/api/user', user);
+
+
 mongoose
     .connect('mongodb://db:27017/crud-node-mongo-docker', {
         useNewUrlParser: true
