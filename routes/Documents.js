@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 router.post('/new', (req, res) => {
     const newDocuments = new Documents({
         userId: req.body.userId,
-        type: req.body.name,
+        type: req.body.type,
         imgPath: req.body.imgPath
     });
 
