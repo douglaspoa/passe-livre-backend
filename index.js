@@ -11,6 +11,11 @@ const user = require('./routes/user');
 
 app.use('/api/user', user);
 
+// Adicionando arquivo de rota no endpoint /documents
+const documents = require('./routes/documents');
+
+app.use('/api/documents', documents);
+
 
 mongoose
     .connect('mongodb://db:27017/crud-node-mongo-docker', {

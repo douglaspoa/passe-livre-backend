@@ -1,25 +1,26 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/User');
+const Documents = require('../models/Documents');
 
 // Retorna um array com todos os documentos do banco de dados
 router.get('/', (req, res) => {
-    User.find()
-        .then(users => {
-            res.json(users);
+    Documents.find()
+        .then(documents => {
+            res.json(documents);
         })
         .catch(error => res.status(500).json(error));
 });
 
-// Adiciona um novo usuário no banco de dados
+// Adiciona um novo documento no banco de dados
 router.post('/new', (req, res) => {
-    const newUser = new User({
-        name: req.body.name,
-        email: req.body.email
+    const newDocuments = new Documents({
+        userId: req.body.userId,
+        type: req.body.name,
+        imgPath: req.body.imgPath
     });
 
-    newUser
+    newDocuments
         .save()
         .then(result => {
             res.json(result);
@@ -29,20 +30,20 @@ router.post('/new', (req, res) => {
         });
 });
 
-// Atualizando dados de um usuário já existente
+// Atualizando dados de um documento já existente
 router.put('/edit/:id', (req, res) => {
-    const newData = { name: req.body.name, email: req.body.email, passportPassed: req.body.passportPassed };
+    const newData = { userId: req.body.userId, type: req.body.type, imgPath: req.body.imgPath, approved: req.body.approved };
 
-    User.findOneAndUpdate({ _id: req.params.id }, newData, { new: true })
+    Documents.findOneAndUpdate({ _id: req.params.id }, newData, { new: true })
         .then(user => {
             res.json(user);
         })
         .catch(error => res.status(500).json(error));
 });
 
-// Deletando um usuário do banco de dados
+// Deletando um documento do banco de dados
 router.delete('/delete/:id', (req, res) => {
-    User.findOneAndDelete({ _id: req.params.id })
+    Documents.findOneAndDelete({ _id: req.params.id })
         .then(user => {
             res.json(user);
         })
