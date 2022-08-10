@@ -1,7 +1,28 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 
 const Documents = require('../models/Documents');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        // Extração da extensão do arquivo original:
+        const fileExtension = file.originalname.split('.')[1];
+
+        // Cria um código randômico que será o nome do arquivo
+        const newFileName = require('crypto')
+            .randomBytes(64)
+            .toString('hex');
+
+        // Indica o novo nome do arquivo:
+        cb(null, `${newFileName}.${fileExtension}`)
+    }
+});
+
+const upload = multer({ storage });
 
 // Retorna um array com todos os documentos do banco de dados
 router.get('/', (req, res) => {
@@ -13,11 +34,11 @@ router.get('/', (req, res) => {
 });
 
 // Adiciona um novo documento no banco de dados
-router.post('/new', (req, res) => {
+router.post('/new', upload.single('imgPath'), (req, res) => {
     const newDocuments = new Documents({
         userId: req.body.userId,
         type: req.body.type,
-        imgPath: req.body.imgPath
+        imgPath: req.file.filename
     });
 
     newDocuments
