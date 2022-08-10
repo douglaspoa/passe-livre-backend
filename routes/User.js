@@ -31,7 +31,7 @@ router.post('/new', (req, res) => {
 
 // Atualizando dados de um usuário já existente
 router.put('/edit/:id', (req, res) => {
-    const newData = { name: req.body.name, email: req.body.email, passportPassed: req.body.passportPassed };
+    const newData = { name: req.body.name, email: req.body.email, passportPassed: req.body.passportPassed, password: req.body.password };
 
     User.findOneAndUpdate({ _id: req.params.id }, newData, { new: true })
         .then(user => {

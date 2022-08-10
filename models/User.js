@@ -10,6 +10,10 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
+    password: {
+        type: String,
+        require: true
+    },
     level: {
         type: Number,
         default: 1
